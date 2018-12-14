@@ -3,7 +3,7 @@
 
 var wsuser="";
 var wsapp="";
-var serverUrl = 'ws://172.31.11.225:9000';
+var serverUrl = 'ws://18.188.195.242:9000';
 var socket = new WebSocket(serverUrl);
 var wsfunc="";
 var Nolista=0;
