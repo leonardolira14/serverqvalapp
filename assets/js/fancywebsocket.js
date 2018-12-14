@@ -3,7 +3,7 @@
 
 var wsuser="";
 var wsapp="";
-var serverUrl = 'ws://18.188.195.242:9000';
+var serverUrl = 'https://admyo.com:9000';
 var socket = new WebSocket(serverUrl);
 var wsfunc="";
 var Nolista=0;
