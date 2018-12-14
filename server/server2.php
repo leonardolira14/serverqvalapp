@@ -3,7 +3,7 @@
 
 set_time_limit(0);
 
-$mysqli = new mysqli('127.0.0.1','root','','chats');
+$mysqli = new mysqli('localhost','root','admyo246','chats');
 $sql="truncate usuarios";
 $result=$mysqli->query($sql);
 $mysqli->close();
@@ -30,13 +30,13 @@ function wsOnMessage($clientID, $message, $messageLength, $binary)
 		if($k[2]==="cabina"){
 			$id=Nocabina();
 			if($id===false){
-				$mysqli = new mysqli('127.0.0.1','root','','chats');
+				$mysqli = new mysqli('localhost','root','admyo246','chats');
 				$sql="insert into usuarios (App,Usr,Keyid) values ('".$k[2]."','".$k[1]."','".$clientID."')";
 	    		$result=$mysqli->query($sql);
 			}
 			
 		}else{	
-			$mysqli = new mysqli('127.0.0.1','root','','chats');
+			$mysqli = new mysqli('localhost','root','admyo246','chats');
 			$sql="insert into usuarios (App,Usr,Keyid) values ('".$k[2]."','".$k[1]."','".$clientID."')";
 	    	$result=$mysqli->query($sql);	
 		}
@@ -60,7 +60,7 @@ function wsOnMessage($clientID, $message, $messageLength, $binary)
     	}
  
 	if($k[0]=="MSG"){
-		$mysqli = new mysqli('127.0.0.1','root','','chats');
+		$mysqli = new mysqli('localhost','root','admyo246','chats');
 		//ahora obtego los nombre de las partes afectadas
 		$sql="select * from usuarios where Keyid='$clientID'";
 		$emisor=$mysqli->query($sql);
@@ -83,7 +83,7 @@ function wsOnMessage($clientID, $message, $messageLength, $binary)
 	
 }
 function Nocabina(){
-	$mysqli = new mysqli('127.0.0.1','root','','chats');
+	$mysqli = new mysqli('localhost','root','admyo246.','chats');
 
 	$sql="select * from usuarios where App='cabina'";
 			$result=$mysqli->query($sql);
@@ -111,7 +111,7 @@ function wsOnClose($clientID, $status) {
 	$ip = long2ip( $Server->wsClients[$clientID][6] );
 	$Server->log( "$ip ($clientID) has disconnected." );
 	//$Server->log( "$ip ($clientID) has disconnected." );
-       $mysqli = new mysqli('127.0.0.1','root','','chats');
+       $mysqli = new mysqli('localhost','root','admyo246','chats');
 		$sql="delete from usuarios where Keyid='".$clientID."'";
     	$result=$mysqli->query($sql);
     	$lista=obtener_lista();
@@ -124,7 +124,7 @@ function wsOnClose($clientID, $status) {
 }
 function obtener_lista(){
 	$array=[];
-	$mysqli = new mysqli('127.0.0.1','root','','chats');
+	$mysqli = new mysqli('localhost','root','admyo246','chats');
 	$sql="select * from usuarios";
 	$resultados=$mysqli->query($sql);
 	while($row = $resultados->fetch_assoc()){
