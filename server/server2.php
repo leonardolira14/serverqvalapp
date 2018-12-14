@@ -138,6 +138,6 @@ $Server->bind('message', 'wsOnMessage');
 $Server->bind('open', 'wsOnOpen');
 $Server->bind('close', 'wsOnClose');
 
-$Server->wsStartServer('172.31.11.225',9000);
+$Server->wsStartServer('ec2-18-188-195-242.us-east-2.compute.amazonaws.com',9000);
 
 ?>
