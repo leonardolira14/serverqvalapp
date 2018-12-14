@@ -138,6 +138,6 @@ $Server->bind('message', 'wsOnMessage');
 $Server->bind('open', 'wsOnOpen');
 $Server->bind('close', 'wsOnClose');
 
-$Server->wsStartServer('192.168.0.3',9000);
+$Server->wsStartServer('https://testqval.admyo.com/serverqval',9000);
 
 ?>
