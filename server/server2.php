@@ -138,6 +138,6 @@ $Server->bind('message', 'wsOnMessage');
 $Server->bind('open', 'wsOnOpen');
 $Server->bind('close', 'wsOnClose');
 
-$Server->wsStartServer('https://admyo.com',9000);
+$Server->wsStartServer('172.31.11.225',9000);
 
 ?>
