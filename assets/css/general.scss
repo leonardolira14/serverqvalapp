@@ -1,0 +1,82 @@
+// The "primary" color is the only required color in the map.
+$colors: (
+  primary:    #005d8f,
+  succes: #00a65a,
+  secondary:  #f7ac43,
+  danger:     #f53d3d,
+  light:      #f4f4f4,
+  dark:       #222,
+  gary-lte:  #d2d6de,
+  aqua: #00c0ef,
+  yellow: #f39c12,
+  blue: #0073b7,
+  navy: #001F3F,
+  teal: #39CCCC,
+  olive: #3D9970,
+  lime: #01FF70,
+  orange: #FF851B,
+  fuchsia: #F012BE,
+  purple: #605ca8,
+  maroon: #D81B60,
+  black: #111,
+  dark-2: #222d32,
+  light-gray: #444,
+  alight-gray:#777
+);
+html,body{
+	 height: 100%;
+	 width: 100%;
+}
+.head{
+	height: 40px;
+	 background:map-get($colors, primary) !important;
+}
+#wrapper{
+	& #sidebar-wrapper{
+		 background:#fff;
+		 border-right: 1px solid #777;
+		 & li{
+		 	& a{
+		 		color: map-get($colors, black) !important;
+		 		&.active{
+		 			background-color: map-get($colors, primary) !important;
+		 		}
+		 		&:hover{
+		 			background-color: map-get($colors, gary-lte) !important;
+		 		}
+		 		&.new{
+					background-color: map-get($colors, orange) !important;
+		 		};
+		 		
+		 	}
+		 }
+	}
+	& #page-content-wrapper{
+		height: 600px;
+			& .contenedor{
+				display: none;
+				&.active{
+					display: block;
+				}
+			}
+			
+			& .listmsg{
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 90%;
+				background-color: #fff !important;
+				& .list_mensjes{
+					max-height: 540px;
+				    overflow: auto;
+				}
+			}
+		    & .text-msg{
+		    	position: absolute;
+		    	left: 0;
+		    	bottom: 0px;
+		    	width: 100%;
+		    }
+	}
+}

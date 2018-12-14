@@ -1,0 +1,41 @@
+html, body {
+  height: 100%;
+  width: 100%; }
+
+.head {
+  height: 40px;
+  background: #005d8f !important; }
+
+#wrapper #sidebar-wrapper {
+  background: #fff;
+  border-right: 1px solid #777; }
+  #wrapper #sidebar-wrapper li a {
+    color: #111 !important; }
+    #wrapper #sidebar-wrapper li a.active {
+      background-color: #005d8f !important; }
+    #wrapper #sidebar-wrapper li a:hover {
+      background-color: #d2d6de !important; }
+    #wrapper #sidebar-wrapper li a.new {
+      background-color: #FF851B !important; }
+
+#wrapper #page-content-wrapper {
+  height: 600px; }
+  #wrapper #page-content-wrapper .contenedor {
+    display: none; }
+    #wrapper #page-content-wrapper .contenedor.active {
+      display: block; }
+  #wrapper #page-content-wrapper .listmsg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 90%;
+    background-color: #fff !important; }
+    #wrapper #page-content-wrapper .listmsg .list_mensjes {
+      max-height: 540px;
+      overflow: auto; }
+  #wrapper #page-content-wrapper .text-msg {
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    width: 100%; }
