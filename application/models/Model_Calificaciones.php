@@ -72,7 +72,7 @@ class Model_Calificaciones extends CI_Model
 			$nomenclaturas=explode(",",$dcuestionario->Cuestionario);
 			foreach ($nomenclaturas as $letra) {
 				$datospregunta=$this->obtener_pregunta($letra);
-				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma));
+				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma,"Respuesta"=>$datospregunta->Respuesta));
 			}
 
 			return $cuestionario;
