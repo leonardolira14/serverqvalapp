@@ -111,10 +111,15 @@ class Model_Calificaciones extends CI_Model
 		foreach ($_cuestionario as $_pregunta) {
 			$array=[];
 			//obtengo los datos de la pregunta
+			if(gettype($_pregunta->repuesta)=="array"){
+				$respuesta=json_encode($_pregunta->repuesta);
+			}else{
+				$respuesta=$_pregunta->repuesta;
+			}
 			
 			$datos_pregunta=$this->obtener_pregunta(FALSE,$_pregunta->pregunata);
 			$calif=_is_respcorrect($datos_pregunta->Respuesta,$_pregunta->repuesta,$datos_pregunta->Peso,$datos_pregunta->Forma);
-			$array=array("IDValora"=>$_ID_Valora,"IDPregunta"=>$datos_pregunta->IDPregunta,"Respuesta"=>$_pregunta->repuesta,"Calificacion"=>$calif);
+			$array=array("IDValora"=>$_ID_Valora,"IDPregunta"=>$datos_pregunta->IDPregunta,"Respuesta"=>$respuesta,"Calificacion"=>$calif);
 			$this->db->insert("detallecalificacion",$array);
 			$pp=$pp+(float)$datos_pregunta->Peso;
 			$po=$po+$calif;

@@ -219,5 +219,20 @@ if(!function_exists("_is_respcorrect"))
 				}
 			}
 		}
+		if($tipopregunta==="MLC"){
+			if(count($respuesta)===0){
+				return $_calificacion=0;
+			}else{
+				return $calificacion;
+			}
+
+		}
+		if($tipopregunta==="ML"){
+			if($respuesta===false){
+				return $_calificacion=0;
+			}else{
+				return $calificacion;
+			}
+		}
 	}	
 }
