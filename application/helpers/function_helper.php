@@ -178,6 +178,22 @@ if(!function_exists("_media_puntos"))
 if(!function_exists("_is_respcorrect"))
 {
 	function _is_respcorrect($respuesta_correcta,$respuesta,$calificacion,$tipopregunta){
+		if($tipopregunta==="AB"){
+			if($respuesta!==""){
+				$_calificacion=$calificacion;
+			}else{
+				$_calificacion=0;
+			}
+			
+			return $_calificacion;
+		}
+		if($tipopregunta==="MESES"){
+			$dias=(int)$respuesta;
+			$dias=1-(int)$dias/30;
+			$peso=(float)$calificacion;
+			$_calificacion=$peso*$dias;
+			return $_calificacion;
+		}
 		if($tipopregunta==="HORAS"){
 			$dias=(int)$respuesta;
 			$dias=1-(int)$dias/24;

@@ -62,7 +62,7 @@ class Model_Calificaciones extends CI_Model
 			return $cues->row();
 		}
 	}
-	public function cuestionario($perfilemisor,$perfilreceptor,$TEmisor){
+	public function cuestionario($_IDEMpresa,$perfilemisor,$perfilreceptor,$TEmisor){
 		$dcuestionario=$this->datos_cuestionario($perfilemisor,$perfilreceptor,$TEmisor);
 
 		if($dcuestionario===FALSE){
@@ -70,9 +70,17 @@ class Model_Calificaciones extends CI_Model
 		}else{
 			$cuestionario=[];
 			$nomenclaturas=explode(",",$dcuestionario->Cuestionario);
+			
 			foreach ($nomenclaturas as $letra) {
-				$datospregunta=$this->obtener_pregunta($letra);
-				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma,"Respuesta"=>$datospregunta->Respuesta));
+				$datospregunta=$this->obtener_pregunta($_IDEMpresa,$letra,FALSE);
+				
+				try {
+					array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma,"Respuesta"=>$datospregunta->Respuesta));
+				} catch (Exception $e) {
+					vdebug($cuestionario);
+				}
+				
+				
 			}
 
 			return $cuestionario;
@@ -108,6 +116,7 @@ class Model_Calificaciones extends CI_Model
 	public function adddetallecalificacion($_cuestionario,$_ID_Valora){
 			$pp=0;
 			$po=0;
+			
 		foreach ($_cuestionario as $_pregunta) {
 			$array=[];
 			//obtengo los datos de la pregunta
@@ -117,7 +126,7 @@ class Model_Calificaciones extends CI_Model
 				$respuesta=$_pregunta->repuesta;
 			}
 			
-			$datos_pregunta=$this->obtener_pregunta(FALSE,$_pregunta->pregunata);
+			$datos_pregunta=$this->obtener_pregunta("",FALSE,$_pregunta->pregunata);
 			$calif=_is_respcorrect($datos_pregunta->Respuesta,$_pregunta->repuesta,$datos_pregunta->Peso,$datos_pregunta->Forma);
 			$array=array("IDValora"=>$_ID_Valora,"IDPregunta"=>$datos_pregunta->IDPregunta,"Respuesta"=>$respuesta,"Calificacion"=>$calif);
 			$this->db->insert("detallecalificacion",$array);
@@ -132,9 +141,15 @@ class Model_Calificaciones extends CI_Model
 		$array=array("Calificacion"=>$_Promedio);
 		$this->db->where("IDCalificacion='$_ID_Valora'")->update("tbcalificaciones",$array);
 	}
-	public function obtener_pregunta($nomenclatura=FALSE,$_ID_Pregunta=FALSE){
+	public function obtener_pregunta($_IDEmpresa,$nomenclatura=FALSE,$_ID_Pregunta=FALSE){
+		
 		if($nomenclatura!==FALSE){
-			$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura'")->get('preguntas');
+			if(is_numeric($nomenclatura)) {
+				$sql=$this->db->select('*')->where("IDPregunta='$nomenclatura' ")->get('preguntas');
+			}else{
+					$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura' and IDEmpresa='$_IDEmpresa'")->get('preguntas');
+			}
+			
 		}
 		if($_ID_Pregunta!==FALSE){
 			$sql=$this->db->select('*')->where("IDPregunta='$_ID_Pregunta'")->get('preguntas');

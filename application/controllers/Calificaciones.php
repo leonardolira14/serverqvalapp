@@ -27,7 +27,7 @@ class Calificaciones extends REST_Controller
 			$datos_empresa_receptora=$request[0]->datos_receptora;
 			$datos_empresa_emisora=$request[0]->datos_emisor;
 			//obtengo el cuestionario que se va a realizar
-			$cuestionario=$this->Model_Calificaciones->cuestionario($datos_empresa_emisora->IDPerfil,$datos_empresa_receptora->IDPerfil,$datos_empresa_receptora->perfil);
+			$cuestionario=$this->Model_Calificaciones->cuestionario($datos_empresa_emisora->empresa,$datos_empresa_emisora->IDPerfil,$datos_empresa_receptora->IDPerfil,$datos_empresa_receptora->perfil);
 			if($cuestionario===FALSE){
 				$data["pass"]=0;
 				$data["Mensaje"]="Sin relación";

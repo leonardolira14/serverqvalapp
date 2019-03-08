@@ -299,6 +299,7 @@ class Model_Cuestionarios extends CI_Model
 	public function CuestionarioApp($_empresa,$cues){
 		$cuestionario=[];
 			$nomenclaturas=explode(",",$cues);
+			vdebug($nomenclaturas);
 			foreach ($nomenclaturas as $letra) {
 				$datospregunta=$this->datspregunta($_empresa,$letra);
 				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma));
