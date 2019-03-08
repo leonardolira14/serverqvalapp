@@ -280,7 +280,7 @@ class Model_Cuestionarios extends CI_Model
 			return false;
 		}
 	}
-	public function obtener_pregunta($empresa,,$nomenclatura=FALSE,$_ID_Pregunta=FALSE){
+	public function obtener_pregunta($empresa,$nomenclatura=FALSE,$_ID_Pregunta=FALSE){
 		if($nomenclatura!==FALSE){
 			$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
 		}
