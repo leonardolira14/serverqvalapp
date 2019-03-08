@@ -280,7 +280,7 @@ class Model_Cuestionarios extends CI_Model
 			return false;
 		}
 	}
-	public function obtener_pregunta($empresa,$nomenclatura=FALSE,$_ID_Pregunta=FALSE){
+	public function obtener_pregunta($nomenclatura=FALSE,$_ID_Pregunta=FALSE){
 		if($nomenclatura!==FALSE){
 			$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
 		}
@@ -290,11 +290,17 @@ class Model_Cuestionarios extends CI_Model
 		
 		return $sql->row();
 	}
+	public function datspregunta($empresa,$nomenclatura){
+		
+			$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
+		return $sql->row();
+			
+	}
 	public function CuestionarioApp($_empresa,$cues){
 		$cuestionario=[];
 			$nomenclaturas=explode(",",$cues);
 			foreach ($nomenclaturas as $letra) {
-				$datospregunta=$this->obtener_pregunta($_empresa,$letra);
+				$datospregunta=$this->datspregunta($_empresa,$letra);
 				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma));
 			}
 
