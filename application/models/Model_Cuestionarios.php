@@ -290,11 +290,11 @@ class Model_Cuestionarios extends CI_Model
 		
 		return $sql->row();
 	}
-	public function CuestionarioApp($cues){
+	public function CuestionarioApp($_empresa,$cues){
 		$cuestionario=[];
 			$nomenclaturas=explode(",",$cues);
 			foreach ($nomenclaturas as $letra) {
-				$datospregunta=$this->obtener_pregunta($letra);
+				$datospregunta=$this->obtener_pregunta($_empresa,$letra);
 				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma));
 			}
 

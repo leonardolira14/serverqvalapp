@@ -91,7 +91,7 @@ class Calificaciones extends REST_Controller
 			            if($dats_Cuest!=false){
 			             //ahora busco coloco las preguntas
 			                $data["DCuestionario"]=$dats_Cuest;
-			                $data["cuestionario"]=$this->Model_Cuestionarios->CuestionarioApp($dats_Cuest->Cuestionario);
+			                $data["cuestionario"]=$this->Model_Cuestionarios->CuestionarioApp($datos->empresa,$dats_Cuest->Cuestionario);
 			                 $data["pass"]=1;              
 			            }else{
 			             $data["pass"]=0;
