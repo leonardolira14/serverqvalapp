@@ -300,12 +300,23 @@ class Model_Cuestionarios extends CI_Model
 		return $sql->row();
 			
 	}
+	public function datspregunta2($empresa,$nomenclatura){
+			if(is_numeric($nomenclatura)){
+				$sql=$this->db->select('*')->where("IDPregunta='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
+			}else{
+				$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
+			}
+			
+		return $sql->row_array();
+			
+	}
 	public function CuestionarioApp($_empresa,$cues){
 		$cuestionario=[];
 			$nomenclaturas=explode(",",$cues);
 			
 			foreach ($nomenclaturas as $letra) {
-				$datospregunta=$this->datspregunta($_empresa,$letra);
+				$datospregunta=$this->datspregunta2($_empresa,$letra);
+				vdebug($datospregunta);
 				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma));
 			}
 
