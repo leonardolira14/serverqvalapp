@@ -80,7 +80,7 @@ class Calificaciones extends REST_Controller
              $data["pass"]=0;
              $data["mensaje"]="Este Código no es valido";
         }
-        
+
         if($bandera===true){
 	 	   //verifico si es interno o externo
         	if($datclie[0]==="E" ){
@@ -112,7 +112,8 @@ class Calificaciones extends REST_Controller
 		             //ahora busco coloco las preguntas
 		                $data["DCuestionario"]=$dats_Cuest;
 		                $data["cuestionario"]=$this->Model_Cuestionarios->CuestionarioApp($dats_Cuest->Cuestionario);
-		                 $data["pass"]=1;              
+		                 $data["pass"]=1;  
+
 		            }else{
 		             $data["pass"]=0;
 		             $data["mensaje"]="Sin relación con este cliente.";
@@ -124,6 +125,7 @@ class Calificaciones extends REST_Controller
                 
             }
         }
+        vdebug($data);
         $this->response($data);     
         
     }
