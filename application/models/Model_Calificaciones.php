@@ -69,10 +69,11 @@ class Model_Calificaciones extends CI_Model
 			return false;
 		}else{
 			$cuestionario=[];
+			
 			$nomenclaturas=explode(",",$dcuestionario->Cuestionario);
 			
 			foreach ($nomenclaturas as $letra) {
-				$datospregunta=$this->obtener_pregunta($_IDEMpresa,$letra,FALSE);
+				$datospregunta=$this->datspregunta($_IDEMpresa,$letra);
 				
 				try {
 					array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma,"Respuesta"=>$datospregunta->Respuesta));
@@ -140,6 +141,16 @@ class Model_Calificaciones extends CI_Model
 	public function modpromedio($_Promedio,$_ID_Valora){
 		$array=array("Calificacion"=>$_Promedio);
 		$this->db->where("IDCalificacion='$_ID_Valora'")->update("tbcalificaciones",$array);
+	}
+	public function datspregunta($empresa,$nomenclatura){
+			if(is_numeric($nomenclatura)){
+				$sql=$this->db->select('*')->where("IDPregunta='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
+			}else{
+				$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
+			}
+			
+		return $sql->row();
+			
 	}
 	public function obtener_pregunta($_IDEmpresa,$nomenclatura=FALSE,$_ID_Pregunta=FALSE){
 		

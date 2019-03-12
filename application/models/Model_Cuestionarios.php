@@ -311,7 +311,7 @@ class Model_Cuestionarios extends CI_Model
 				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma));
 				//var_dump($cuestionario);
 			}
-
+			var_dump($cuestionario);
 			return $cuestionario;
 	}
 
