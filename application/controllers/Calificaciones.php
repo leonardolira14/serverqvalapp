@@ -80,6 +80,7 @@ class Calificaciones extends REST_Controller
              $data["pass"]=0;
              $data["mensaje"]="Este Código no es valido";
         }
+        
         if($bandera===true){
 	 	   //verifico si es interno o externo
         	if($datclie[0]==="E" ){
