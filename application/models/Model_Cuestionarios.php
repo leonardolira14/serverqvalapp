@@ -309,7 +309,7 @@ class Model_Cuestionarios extends CI_Model
 				$datospregunta=$this->datspregunta($_empresa,$letra);
 				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma));
 			}
-
+			vdebug($cuestionario);
 			return $cuestionario;
 	}
 
