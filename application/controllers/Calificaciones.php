@@ -73,7 +73,7 @@ class Calificaciones extends REST_Controller
 	 	$datos=json_decode($_variables["datos"]);
 	 	$datclie=explode("|",$datos->cliente);        
         $bandera=false;
-        vdebug($datos);
+       // vdebug($datos);
         //primero busco si el cliente que viene es valido
       	if($datclie[0]==="E" || $datclie[0]==="I" ){
                 $bandera=true;
