@@ -307,9 +307,10 @@ class Model_Cuestionarios extends CI_Model
 			
 			foreach ($nomenclaturas as $letra) {
 				$datospregunta=$this->datspregunta($_empresa,$letra);
+				vdebug($datospregunta);
 				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma));
 			}
-			vdebug($cuestionario);
+
 			return $cuestionario;
 	}
 
