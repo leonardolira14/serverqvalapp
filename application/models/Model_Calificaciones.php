@@ -110,7 +110,7 @@ class Model_Calificaciones extends CI_Model
 		$datosrecepor=$this->datosempresa($_TReceptor,$_ID_Receptor);
 		$datosemisor=$this->datosempresa($_TEmisor,$_ID_Emisor);
 		$cuestionario=$this->datos_cuestionario($datosemisor[0]["IDConfig"],$datosrecepor[0]["IDConfig"],$datosrecepor[0]["perfil"]);
-		$array=array("Calificacion"=>0,"IDCuestionario"=>$cuestionario->IDCuestionario,"IDEmisor"=>$datosemisor[0]["Num"],"IDReceptor"=>$datosrecepor[0]["Num"],"TEmisor"=>$datosemisor[0]["perfil"],"TReceptor"=>$datosrecepor[0]["perfil"]);
+		$array=array("Calificacion"=>0,"IDCuestionario"=>$cuestionario->IDCuestionario,"IDEmisor"=>$datosemisor[0]["Num"],"IDReceptor"=>$datosrecepor[0]["Num"],"TEmisor"=>$datosemisor[0]["perfil"],"TReceptor"=>$datosrecepor[0]["perfil"],"Fecha"=>date('Y-m-d'));
 		$this->db->insert("tbcalificaciones",$array);
 		return $this->db->insert_id();
 	}
