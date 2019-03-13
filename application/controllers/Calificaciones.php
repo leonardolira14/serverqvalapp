@@ -126,7 +126,7 @@ class Calificaciones extends REST_Controller
                 
             }
         }
-        vdebug($data);
+        //vdebug($data);
         $this->response($data);     
         
     }

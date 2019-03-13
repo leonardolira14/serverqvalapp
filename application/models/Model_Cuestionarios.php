@@ -308,10 +308,10 @@ class Model_Cuestionarios extends CI_Model
 			foreach ($nomenclaturas as $letra) {
 				$datospregunta=$this->datspregunta($_empresa,$letra);
 
-				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma));
+				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma,"getrespuestajson"=>$datospregunta->Respuesta));
 				//var_dump($cuestionario);
 			}
-			
+
 			return $cuestionario;
 	}
 
