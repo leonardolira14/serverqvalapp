@@ -28,11 +28,18 @@ class Calificaciones extends REST_Controller
 			$datos_empresa_emisora=$request[0]->datos_emisor; 
 
 			//obtengo los datos de la empresa que realiza
-			$_datos_Usuario_emisor=$this->Model_Usuarios->datos_usuario($datos_empresa_emisora->usuario);
+			if($request[0]->tipo==='realiza'){
+				$_datos_Usuario_emisor=$this->Model_Usuarios->datos_usuario($datos_empresa_emisora->usuario);
+				$cuestionario=$this->Model_Calificaciones->cuestionario($datos_empresa_emisora->empresa,$_datos_Usuario_emisor->IDConfig,$datos_empresa_receptora->IDPerfil,$datos_empresa_receptora->perfil);
+			}else{
+				$_datos_Usuario_receptor=$this->Model_Usuarios->datos_usuario($datos_empresa_receptora->usuario);
+				$cuestionario=$this->Model_Calificaciones->cuestionario($datos_empresa_receptora->empresa,$datos_empresa_emisora->IDPerfil,$_datos_Usuario_receptor->IDConfig,$datos_empresa_receptora->perfil);
+			}
+			
 
 			
 			//obtengo el cuestionario que se va a realizar
-			$cuestionario=$this->Model_Calificaciones->cuestionario($datos_empresa_emisora->empresa,$_datos_Usuario_emisor->IDConfig,$datos_empresa_receptora->IDPerfil,$datos_empresa_receptora->perfil);
+			
 			if($cuestionario===FALSE){
 				$data["pass"]=0;
 				$data["Mensaje"]="Sin relación";
@@ -166,6 +173,7 @@ class Calificaciones extends REST_Controller
             if($dats_Cuest!=false){
              //ahora busco coloco las preguntas
                 $data["DCuestionario"]=$dats_Cuest;
+                vedebug($data);
                 $data["cuestionario"]=$this->Model_Cuestionarios->CuestionarioApp($dats_Cuest->Cuestionario);  
                 $data["pass"]=1;            
             }else{

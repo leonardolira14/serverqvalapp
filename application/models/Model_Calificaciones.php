@@ -56,6 +56,7 @@ class Model_Calificaciones extends CI_Model
 	}
 	public function datos_cuestionario($perfilemisor,$perfilreceptor,$T_Receptor){
 		$cues=$this->db->select("*")->where("PerfilCalifica='$perfilemisor' and PerfilCalificado='$perfilreceptor' and TPReceptor='$T_Receptor'")->get('detallecuestionario');
+		
 		if($cues->num_rows()===0){
 			return FALSE;
 		}else{
@@ -86,7 +87,7 @@ class Model_Calificaciones extends CI_Model
 				
 				
 			}
-
+			
 			return $cuestionario;
 		}
 	}
