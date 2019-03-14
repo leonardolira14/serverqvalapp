@@ -201,6 +201,14 @@ if(!function_exists("_is_respcorrect"))
 			$_calificacion=$peso*$dias;
 			return $_calificacion;
 		}
+		if($tipopregunta==="NUMERO"){
+			if($respuesta!==""){
+				$_calificacion=$calificacion;
+			}else{
+				$_calificacion=0;
+			}
+			return $_calificacion;
+		}
 		if($tipopregunta==="SEGUNDOS"){
 			$dias=(int)$respuesta;
 			$dias=1-(int)$dias/60;
