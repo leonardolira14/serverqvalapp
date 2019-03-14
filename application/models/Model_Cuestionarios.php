@@ -296,8 +296,13 @@ class Model_Cuestionarios extends CI_Model
 			}else{
 				$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
 			}
+			if($sql->num_rows()===0){
+				return false;
+			}else{
+				return $sql->row();
+			}
 			
-		return $sql->row();
+		
 			
 	}
 	
@@ -307,8 +312,10 @@ class Model_Cuestionarios extends CI_Model
 			
 			foreach ($nomenclaturas as $letra) {
 				$datospregunta=$this->datspregunta($_empresa,$letra);
-
-				array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma,"Respuesta"=>$datospregunta->Respuesta));
+				if($datospregunta!==false){
+					array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma,"Respuesta"=>$datospregunta->Respuesta));
+				}
+			
 				//var_dump($cuestionario);
 			}
 
