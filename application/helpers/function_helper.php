@@ -188,21 +188,23 @@ if(!function_exists("_is_respcorrect"))
 			return $_calificacion;
 		}
 		if($tipopregunta==="MESES"){
-			$dias=(int)$respuesta;
-			$dias=1-(int)$dias/30;
-			$peso=(float)$calificacion;
-			$_calificacion=$peso*$dias;
+			if($respuesta_correcta!==$respuesta){
+				$_calificacion=$calificacion;
+			}else{
+				$_calificacion=0;
+			}
 			return $_calificacion;
 		}
 		if($tipopregunta==="HORAS"){
-			$dias=(int)$respuesta;
-			$dias=1-(int)$dias/24;
-			$peso=(float)$calificacion;
-			$_calificacion=$peso*$dias;
+			if($respuesta_correcta!==$respuesta){
+				$_calificacion=$calificacion;
+			}else{
+				$_calificacion=0;
+			}
 			return $_calificacion;
 		}
 		if($tipopregunta==="NUMERO"){
-			if($respuesta!==""){
+			if($respuesta_correcta!==$respuesta){
 				$_calificacion=$calificacion;
 			}else{
 				$_calificacion=0;
@@ -210,26 +212,29 @@ if(!function_exists("_is_respcorrect"))
 			return $_calificacion;
 		}
 		if($tipopregunta==="SEGUNDOS"){
-			$dias=(int)$respuesta;
-			$dias=1-(int)$dias/60;
-			$peso=(float)$calificacion;
-			$_calificacion=$peso*$dias;
+			if($respuesta_correcta!==$respuesta){
+				$_calificacion=$calificacion;
+			}else{
+				$_calificacion=0;
+			}
 			return $_calificacion;
 		}
 		
 		if($tipopregunta==="MINUTOS"){
-			$dias=(int)$respuesta;
-			$dias=1-(int)$dias/60;
-			$peso=(float)$calificacion;
-			$_calificacion=$peso*$dias;
+			if($respuesta_correcta!==$respuesta){
+				$_calificacion=$calificacion;
+			}else{
+				$_calificacion=0;
+			}
 			return $_calificacion;
 		}
 
 		if($tipopregunta==="DIAS"){
-			$dias=(int)$respuesta;
-			$dias=1-(int)$dias/34;
-			$peso=(float)$calificacion;
-			$_calificacion=$peso*$dias;
+			if($respuesta_correcta!==$respuesta){
+				$_calificacion=$calificacion;
+			}else{
+				$_calificacion=0;
+			}
 			return $_calificacion;
 		}
 		if($tipopregunta==="SI/NO" || $tipopregunta==="SI/NO/NA" || $tipopregunta==="SI/NO/NS"){
