@@ -76,7 +76,10 @@ class Model_Calificaciones extends CI_Model
 				$datospregunta=$this->datspregunta($_IDEMpresa,$letra);
 				
 				try {
-					array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma,"Respuesta"=>$datospregunta->Respuesta));
+					if($datospregunta!==false){
+						array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma,"Respuesta"=>$datospregunta->Respuesta));
+					}
+					
 				} catch (Exception $e) {
 					vdebug($cuestionario);
 				}
@@ -148,8 +151,13 @@ class Model_Calificaciones extends CI_Model
 			}else{
 				$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
 			}
+			if($sql->num_rows()===0){
+				return false;
+			}else{
+				return $sql->row();
+			}
 			
-		return $sql->row();
+		
 			
 	}
 	public function obtener_pregunta($_IDEmpresa,$nomenclatura=FALSE,$_ID_Pregunta=FALSE){
