@@ -35,9 +35,7 @@ class Calificaciones extends REST_Controller
 				$_datos_Usuario_receptor=$this->Model_Usuarios->datos_usuario($datos_empresa_receptora->usuario);
 				$cuestionario=$this->Model_Calificaciones->cuestionario($datos_empresa_receptora->empresa,$datos_empresa_emisora->IDPerfil,$_datos_Usuario_receptor->IDConfig,$datos_empresa_receptora->perfil);
 			}
-			
-
-			
+	
 			//obtengo el cuestionario que se va a realizar
 			
 			if($cuestionario===FALSE){
@@ -173,7 +171,7 @@ class Calificaciones extends REST_Controller
             if($dats_Cuest!=false){
              //ahora busco coloco las preguntas
                 $data["DCuestionario"]=$dats_Cuest;
-                vedebug($data);
+                
                 $data["cuestionario"]=$this->Model_Cuestionarios->CuestionarioApp($dats_Cuest->Cuestionario);  
                 $data["pass"]=1;            
             }else{
