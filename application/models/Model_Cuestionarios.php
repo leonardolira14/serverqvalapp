@@ -272,6 +272,16 @@ class Model_Cuestionarios extends CI_Model
 		}
 		return $cuestionario;
 	}
+	//funcion para obtener el con que perfil tiene relacion para buscar
+	public function relacion_buscar($_Tipo,$_Perfil){
+		if($_Tipo==="realiza"){
+			$relacion=$this->db->select('*')->where("PerfilCalifica='$_Perfil'")->get("detallecuestionario");
+		}else{
+			$relacion=$this->db->select('*')->where("PerfilCalificado='$_Perfil'")->get("detallecuestionario");
+		}
+		return $relacion->row_array();
+		
+	}
 	public function relacion($a,$b,$PE,$PR){
 		$sql=$this->db->select("*")->where("PerfilCalifica='$a' and PerfilCalificado='$b' and TPEmisor='$PE' and TPReceptor='$PR'")->get("detallecuestionario");
 		if($sql->num_rows()!=0){

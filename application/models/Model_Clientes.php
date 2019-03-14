@@ -36,7 +36,7 @@ class Model_Clientes extends CI_Model
 			}
 		}
 		if($pin_ex==="I"){
-			$sql=$this->db->select("IDUsuario,Nombre,Apellidos,Puesto,IDConfig")->like("Nombre",$palabra)->where("IDEmpresa=$empresa")->get("clientes");
+			$sql=$this->db->select("IDUsuario,Nombre,Apellidos,Puesto,IDConfig")->like("Nombre",$palabra)->where("IDEmpresa=$empresa")->get("usuario");
 			foreach ($sql->result() as $resultado) {
 				array_push($resultados,array("Nombre"=>$resultado->Nombre." ".$resultado->Apellidos ,"NC"=>$resultado->Puesto,"Num"=>$resultado->IDUsuario,"config"=>$pin_ex,"numconfig"=>$resultado->IDConfig));
 			}
