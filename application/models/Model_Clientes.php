@@ -10,39 +10,23 @@ class Model_Clientes extends CI_Model
 
 	}
 
-	public function buscarrazon($palabra,$empresa,$usuario,$_Tipo){
+	public function buscarrazon($palabra,$empresa,$usuario,$_Tipo,$_IDConfig){
 		$resultados=[];
-		//primero traigo la realcion de este usuario
-		$sql=$this->db->select("*")->where("IDUsuario=$usuario")->get("usuario");
-		$config=$sql->row()->IDConfig;
-		//ahora obtengo con los que tiene realaion
-		if($_Tipo==="recibe"){
-			$sql=$this->db->select("*")->where("PerfilCalificado='$config'")->get("detallecuestionario");
-			if($sql->num_rows()===0){
-				$pin_ex=0;
-			}else{
-				$pin_ex=$sql->row()->TPEmisor;
-			}
-			
-		}else{
-			$sql=$this->db->select("*")->where("PerfilCalifica='$config'")->get("detallecuestionario");
-		    $pin_ex=$sql->row()->TPReceptor;
-		}
 		
-		if($pin_ex==="E"){
-			$sql=$this->db->select("Nombre,IDCliente,NombreComercial,IDConfig")->like("Nombre",$palabra)->where("IDEmpresa=$empresa")->get("clientes");
+		if($_Tipo==="E"){
+			$sql=$this->db->select("Nombre,IDCliente,NombreComercial,IDConfig")->like("Nombre",$palabra)->where("IDEmpresa=$empresa and IDConfig='$_IDConfig'")->get("clientes");
+			
 			foreach ($sql->result() as $resultado) {
-				array_push($resultados,array("Nombre"=>$resultado->Nombre,"NC"=>$resultado->NombreComercial,"Num"=>$resultado->IDCliente,"config"=>$pin_ex,"numconfig"=>$resultado->IDConfig));
+				array_push($resultados,array("Nombre"=>$resultado->Nombre,"NC"=>$resultado->NombreComercial,"Num"=>$resultado->IDCliente,"config"=>$_Tipo,"numconfig"=>$resultado->IDConfig));
 			}
 		}
-		if($pin_ex==="I"){
-			$sql=$this->db->select("IDUsuario,Nombre,Apellidos,Puesto,IDConfig")->like("Nombre",$palabra)->where("IDEmpresa=$empresa")->get("usuario");
+		if($_Tipo==="I"){
+			$sql=$this->db->select("IDUsuario,Nombre,Apellidos,Puesto,IDConfig")->like("Nombre",$palabra)->where("IDEmpresa=$empresa and IDConfig='$_IDConfig'" )->get("usuario");
 			foreach ($sql->result() as $resultado) {
-				array_push($resultados,array("Nombre"=>$resultado->Nombre." ".$resultado->Apellidos ,"NC"=>$resultado->Puesto,"Num"=>$resultado->IDUsuario,"config"=>$pin_ex,"numconfig"=>$resultado->IDConfig));
+				array_push($resultados,array("Nombre"=>$resultado->Nombre." ".$resultado->Apellidos ,"NC"=>$resultado->Puesto,"Num"=>$resultado->IDUsuario,"config"=>$_Tipo,"numconfig"=>$resultado->IDConfig));
 			}
 		}
-		$data["Res"]=$resultados;
-		return $data;
+		return $resultados;
 	}
 	public function getDatos($_ID_Empresa){
 		$sql=$this->db->select("*")->where("IDEmpresa='$_ID_Empresa'")->get("clientes");

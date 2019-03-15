@@ -38,13 +38,31 @@ class Empresas extends REST_Controller
 			//obtengo el tipo de relacion que tenga
 			$_Relacion=$this->Model_Cuestionarios->relacion_buscar($_ID_tipo,$_Perfil);
 			
-			$_Tipo_Perfil_Relacion=$_Relacion['TPReceptor'];
-			$_Perfil_Relacion=$_Relacion['PerfilCalificado'];
+			//ya que tengo las relaciones tengo que meter las empresas
+			$d=[];
+			foreach($_Relacion as $relacion){
+				if($_ID_tipo==="recibe"){
+					$resp=$this->Model_Clientes->buscarrazon($_palabra,$_empresa,$_ID_usuario,$relacion["TPEmisor"],$relacion["PerfilCalifica"]);	
+				}
+				if($_ID_tipo==="realiza"){
+					$resp=$this->Model_Clientes->buscarrazon($_palabra,$_empresa,$_ID_usuario,$relacion["TPReceptor"],$relacion["PerfilCalificado"]);
+				}
+				if(count($resp)!==0){
+					array_push($d,$resp);
+				}
+				
+			}
 			
-			$data["empresas"]=$this->Model_Clientes->buscarrazon($datos[0]->palabra,$datos[0]->empresa,$datos[0]->usuario,$datos[0]->tipo);
-			
-			
+			$data["empresas"]=$d;
 			$this->response($data);
+			//;
+			
+			
+			
+			
+			
+			
+			
 		}
 	}
 	
