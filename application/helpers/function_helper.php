@@ -52,7 +52,7 @@ if(!function_exists("_media_puntos"))
 {
 	function _media_puntos($_puntos_obtenidos,$_puntos_posibles){
 		
-		if($_puntos_obtenidos===0 && $_puntos_posibles===0){
+		if(bccomp($_puntos_obtenidos, $_puntos_posibles) == 0){
 			$num=0;
 		}else{
 			$num=round(($_puntos_obtenidos/$_puntos_posibles)*10,2);
