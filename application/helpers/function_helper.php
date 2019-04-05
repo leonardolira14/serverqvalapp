@@ -178,68 +178,23 @@ if(!function_exists("_media_puntos"))
 if(!function_exists("_is_respcorrect"))
 {
 	function _is_respcorrect($respuesta_correcta,$respuesta,$calificacion,$tipopregunta){
-		if($tipopregunta==="AB"){
-			if($respuesta!==""){
+		if($tipopregunta==="AB" || $tipopregunta==="FECHA" || $tipopregunta==="HORA" || $tipopregunta==="F/H" || $tipopregunta==="NUMERO" || $tipopregunta==="START" ){
+			if($respuesta!=="" || $respuesta!==false){
 				$_calificacion=$calificacion;
 			}else{
 				$_calificacion=0;
-			}
-			
+			}	
 			return $_calificacion;
 		}
-		if($tipopregunta==="MESES"){
-			if($respuesta_correcta!==$respuesta){
-				$_calificacion=$calificacion;
-			}else{
-				$_calificacion=0;
-			}
-			return $_calificacion;
-		}
-		if($tipopregunta==="HORAS"){
-			if($respuesta_correcta!==$respuesta){
-				$_calificacion=$calificacion;
-			}else{
-				$_calificacion=0;
-			}
-			return $_calificacion;
-		}
-		if($tipopregunta==="NUMERO"){
-			if($respuesta_correcta!==$respuesta){
-				$_calificacion=$calificacion;
-			}else{
-				$_calificacion=0;
-			}
-			return $_calificacion;
-		}
-		if($tipopregunta==="SEGUNDOS"){
-			if($respuesta_correcta!==$respuesta){
-				$_calificacion=$calificacion;
-			}else{
-				$_calificacion=0;
-			}
-			return $_calificacion;
+		if($tipopregunta==="DESLIZA" ||  $tipopregunta==="CARGA"){
+			return $calificacion;
 		}
 		
-		if($tipopregunta==="MINUTOS"){
-			if($respuesta_correcta!==$respuesta){
-				$_calificacion=$calificacion;
-			}else{
-				$_calificacion=0;
-			}
-			return $_calificacion;
-		}
-
-		if($tipopregunta==="DIAS"){
-			if($respuesta_correcta!==$respuesta){
-				$_calificacion=$calificacion;
-			}else{
-				$_calificacion=0;
-			}
-			return $_calificacion;
-		}
 		if($tipopregunta==="SI/NO" || $tipopregunta==="SI/NO/NA" || $tipopregunta==="SI/NO/NS"){
 			if($respuesta==="NA" || $respuesta==="NS"){
 				return $_calificacion=0;
+			}else if($respuesta_correcta==="SR"){
+				return $calificacion;
 			}else{
 				if($respuesta_correcta!==$respuesta){
 					return $_calificacion=0;
@@ -251,16 +206,24 @@ if(!function_exists("_is_respcorrect"))
 		if($tipopregunta==="MLC"){
 			if(count($respuesta)===0){
 				return $_calificacion=0;
+			}else if($respuesta_correcta==="SR"){
+				return $calificacion;
 			}else{
 				return $calificacion;
 			}
 
 		}
 		if($tipopregunta==="ML"){
-			if($respuesta===false){
+			if($respuesta===false || $respuesta!==$respuesta_correcta){
 				return $_calificacion=0;
-			}else{
+			}else if($respuesta_correcta==="SR"){
 				return $calificacion;
+			}else{
+				if($respuesta_correcta!==$respuesta){
+					return $_calificacion=0;
+				}else{
+					return $_calificacion=$calificacion;
+				}
 			}
 		}
 	}	

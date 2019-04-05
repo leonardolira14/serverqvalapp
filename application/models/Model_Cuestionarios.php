@@ -288,8 +288,9 @@ class Model_Cuestionarios extends CI_Model
 	}
 	public function relacion($a,$b,$PE,$PR){
 		$sql=$this->db->select("*")->where("PerfilCalifica='$a' and PerfilCalificado='$b' and TPEmisor='$PE' and TPReceptor='$PR'")->get("detallecuestionario");
+		
 		if($sql->num_rows()!=0){
-			return $sql->result()[0];
+			return $sql->row_array();
 		}else{
 			return false;
 		}
@@ -304,35 +305,25 @@ class Model_Cuestionarios extends CI_Model
 		
 		return $sql->row();
 	}
-	public function datspregunta($empresa,$nomenclatura){
-			if(is_numeric($nomenclatura)){
-				$sql=$this->db->select('*')->where("IDPregunta='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
-			}else{
-				$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
-			}
-			if($sql->num_rows()===0){
-				return false;
-			}else{
-				return $sql->row();
-			}
-			
-		
-			
+	public function datspregunta($IDPregunta){
+		$respuesta=$this->db->select("*")->where("IDPregunta='$IDPregunta'")->get("tbpreguntas");
+		$datos= $respuesta->row_array();
+		if($datos["Forma"]=="ML" || $datos["Forma"]=="MLC" || $datos["Forma"]=="DESLIZA" || $datos["Forma"]=="SI/NO" || $datos["Forma"]=="SI/NO/NA" || $datos["Forma"]=="SI/NO/NS"){
+			$respuestas_=json_decode($datos["Respuestas"]);
+		}else{
+			$respuestas_=$datos["Respuestas"];
+		}
+		$array=array("IDPregunta"=>$datos["IDPregunta"],"Pregunta"=>$datos["Pregunta"],"Forma"=>$datos["Forma"],"Respuesta"=>$datos["Respuesta"],"Respuestas"=>$respuestas_,"Obligatoria"=>$datos["Obligatoria"],"Peso"=>$datos["Peso"],"Frecuencia"=>$datos["Frecuencia"]);
+		return $array;	
 	}
 	
-	public function CuestionarioApp($_empresa,$cues){
+	public function CuestionarioApp($cues){
 		$cuestionario=[];
-			$nomenclaturas=explode(",",$cues);
-			
+			$nomenclaturas=json_decode($cues);
 			foreach ($nomenclaturas as $letra) {
-				$datospregunta=$this->datspregunta($_empresa,$letra);
-				if($datospregunta!==false){
-					array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma,"Respuesta"=>$datospregunta->Respuesta));
-				}
-			
-				//var_dump($cuestionario);
+				$datospregunta=$this->datspregunta($letra);
+				array_push($cuestionario,$datospregunta);
 			}
-
 			return $cuestionario;
 	}
 

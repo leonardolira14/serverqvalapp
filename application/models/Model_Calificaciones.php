@@ -65,29 +65,18 @@ class Model_Calificaciones extends CI_Model
 	}
 	public function cuestionario($_IDEMpresa,$perfilemisor,$perfilreceptor,$TEmisor){
 		$dcuestionario=$this->datos_cuestionario($perfilemisor,$perfilreceptor,$TEmisor);
-
+		
 		if($dcuestionario===FALSE){
 			return false;
 		}else{
 			$cuestionario=[];
 			
-			$nomenclaturas=explode(",",$dcuestionario->Cuestionario);
-			
+			$nomenclaturas=json_decode($dcuestionario->Cuestionario);
 			foreach ($nomenclaturas as $letra) {
-				$datospregunta=$this->datspregunta($_IDEMpresa,$letra);
-				
-				try {
-					if($datospregunta!==false){
-						array_push($cuestionario,array("Num"=>$datospregunta->IDPregunta,"Pregunta"=>$datospregunta->Pregunta,"Forma"=>$datospregunta->Forma,"Respuesta"=>$datospregunta->Respuesta));
-					}
-					
-				} catch (Exception $e) {
-					vdebug($cuestionario);
-				}
-				
+				$datospregunta=$this->datspregunta($letra);
+				array_push($cuestionario,$datospregunta);				
 				
 			}
-			
 			return $cuestionario;
 		}
 	}
@@ -125,17 +114,17 @@ class Model_Calificaciones extends CI_Model
 		foreach ($_cuestionario as $_pregunta) {
 			$array=[];
 			//obtengo los datos de la pregunta
-			if(gettype($_pregunta->repuesta)=="array"){
-				$respuesta=json_encode($_pregunta->repuesta);
+			if(gettype($_pregunta->respuesta)=="array"){
+				$respuesta=json_encode($_pregunta->respuesta);
 			}else{
-				$respuesta=$_pregunta->repuesta;
+				$respuesta=$_pregunta->respuesta;
 			}
 			
-			$datos_pregunta=$this->obtener_pregunta("",FALSE,$_pregunta->pregunata);
-			$calif=_is_respcorrect($datos_pregunta->Respuesta,$_pregunta->repuesta,$datos_pregunta->Peso,$datos_pregunta->Forma);
-			$array=array("IDValora"=>$_ID_Valora,"IDPregunta"=>$datos_pregunta->IDPregunta,"Respuesta"=>$respuesta,"Calificacion"=>$calif);
+			$datos_pregunta=$this->obtener_pregunta($_pregunta->pregunta);
+			$calif=_is_respcorrect($datos_pregunta["Respuesta"],$_pregunta->respuesta,$datos_pregunta["Peso"],$datos_pregunta["Forma"]);
+			$array=array("IDValora"=>$_ID_Valora,"IDPregunta"=>$datos_pregunta["IDPregunta"],"Respuesta"=>$respuesta,"Calificacion"=>$calif);
 			$this->db->insert("detallecalificacion",$array);
-			$pp=$pp+(float)$datos_pregunta->Peso;
+			$pp=$pp+(float)$datos_pregunta["Peso"];
 			$po=$po+$calif;
 			
 		}		
@@ -146,36 +135,20 @@ class Model_Calificaciones extends CI_Model
 		$array=array("Calificacion"=>$_Promedio);
 		$this->db->where("IDCalificacion='$_ID_Valora'")->update("tbcalificaciones",$array);
 	}
-	public function datspregunta($empresa,$nomenclatura){
-			if(is_numeric($nomenclatura)){
-				$sql=$this->db->select('*')->where("IDPregunta='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
-			}else{
-				$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura' and IDEmpresa='$empresa'")->get('preguntas');
-			}
-			if($sql->num_rows()===0){
-				return false;
-			}else{
-				return $sql->row();
-			}
-			
-		
-			
+	public function datspregunta($IDPregunta){
+		$respuesta=$this->db->select("*")->where("IDPregunta='$IDPregunta'")->get("tbpreguntas");
+		$datos= $respuesta->row_array();
+		if($datos["Forma"]=="ML" || $datos["Forma"]=="MLC" || $datos["Forma"]=="DESLIZA" || $datos["Forma"]=="SI/NO" || $datos["Forma"]=="SI/NO/NA" || $datos["Forma"]=="SI/NO/NS"){
+			$respuestas_=json_decode($datos["Respuestas"]);
+		}else{
+			$respuestas_=$datos["Respuestas"];
+		}
+		$array=array("IDPregunta"=>$datos["IDPregunta"],"Pregunta"=>$datos["Pregunta"],"Forma"=>$datos["Forma"],"Respuesta"=>$datos["Respuesta"],"Respuestas"=>$respuestas_,"Obligatoria"=>$datos["Obligatoria"],"Peso"=>$datos["Peso"],"Frecuencia"=>$datos["Frecuencia"]);
+		return $array;	
 	}
-	public function obtener_pregunta($_IDEmpresa,$nomenclatura=FALSE,$_ID_Pregunta=FALSE){
-		
-		if($nomenclatura!==FALSE){
-			if(is_numeric($nomenclatura)) {
-				$sql=$this->db->select('*')->where("IDPregunta='$nomenclatura' ")->get('preguntas');
-			}else{
-					$sql=$this->db->select('*')->where("Nomenclatura='$nomenclatura' and IDEmpresa='$_IDEmpresa'")->get('preguntas');
-			}
-			
-		}
-		if($_ID_Pregunta!==FALSE){
-			$sql=$this->db->select('*')->where("IDPregunta='$_ID_Pregunta'")->get('preguntas');
-		}
-		
-		return $sql->row();
+	public function obtener_pregunta($_ID_Pregunta){
+		$sql=$this->db->select('*')->where("IDPregunta='$_ID_Pregunta' ")->get('tbpreguntas');
+		return $sql->row_array();
 	}
 
 }

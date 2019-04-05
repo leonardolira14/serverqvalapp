@@ -22,11 +22,12 @@ class Calificaciones extends REST_Controller
 	}
 	public function realiza_post(){
 		$datos= $this->post();
+		
 		if (isset($datos)) {
 			$request = json_decode($datos[0]);
 			$datos_empresa_receptora=$request[0]->datos_receptora;
 			$datos_empresa_emisora=$request[0]->datos_emisor; 
-
+			
 			//obtengo los datos de la empresa que realiza
 			if($request[0]->tipo==='realiza'){
 				$_datos_Usuario_emisor=$this->Model_Usuarios->datos_usuario($datos_empresa_emisora->usuario);
@@ -51,6 +52,7 @@ class Calificaciones extends REST_Controller
 	//funcion para recibir un cuestionario y ponerlo en la base de datos
 	public function addcuestioario_post(){
 		$_variables= $this->post();
+		//vdebug($_variables);
 		$cuestionario=json_decode($_variables["cuestioario"]);
 		$datoscalifica=json_decode($_variables["datos"]);
 		$_empresa_emisora=$datoscalifica[0]->datos_emisor;
@@ -95,7 +97,7 @@ class Calificaciones extends REST_Controller
         if($bandera===true){
 	 	   //verifico si es interno o externo
         	if($datclie[0]==="E" ){
-                 $datcliente=$this->Model_Clientes->ReadClieusu($datclie[1],$datos->empresa);
+				 $datcliente=$this->Model_Clientes->ReadClieusu($datclie[1],$datos->empresa);
                   if($datcliente!==false){
                  	$data["cliente"]=array("ID"=>$datcliente->IDCliente,"Clave"=>$datcliente->Clave,"Nombre"=>$datcliente->Nombre." ".$datcliente->Apellidos,"conficlie"=>$datcliente->IDConfig,"Usuario"=>$datcliente->Usuario,"TipoE"=>"E");
                  	 //ahora busco una relacion de cuestionarios
@@ -103,7 +105,7 @@ class Calificaciones extends REST_Controller
 			            if($dats_Cuest!=false){
 			             //ahora busco coloco las preguntas
 			                $data["DCuestionario"]=$dats_Cuest;
-			                $data["cuestionario"]=$this->Model_Cuestionarios->CuestionarioApp($datos->empresa,$dats_Cuest->Cuestionario);
+			                $data["cuestionario"]=$this->Model_Cuestionarios->CuestionarioApp($dats_Cuest["Cuestionario"]);
 			                 $data["pass"]=1;              
 			            }else{
 			             $data["pass"]=0;
@@ -119,10 +121,10 @@ class Calificaciones extends REST_Controller
                  	 $data["cliente"]=array("ID"=>$datcliente->IDUsuario,"Clave"=>$datcliente->Clave,"Nombre"=>$datcliente->Nombre. " ".$datcliente->Apellidos,"Usuario"=>$datcliente->Usuario,"TipoE"=>"I","conficlie"=>$datcliente->IDConfig);
                  	  //ahora busco una relacion de cuestionarios
            			 $dats_Cuest=$this->Model_Cuestionarios->relacion($datos->idconfiguracion,$datcliente->IDConfig,"I",$datclie[0]);
-           			 if($dats_Cuest!=false){
+					if($dats_Cuest!=false){
 		             //ahora busco coloco las preguntas
 		                $data["DCuestionario"]=$dats_Cuest;
-		                $data["cuestionario"]=$this->Model_Cuestionarios->CuestionarioApp($dats_Cuest->Cuestionario);
+		                $data["cuestionario"]=$this->Model_Cuestionarios->CuestionarioApp($dats_Cuest["Cuestionario"]);
 		                 $data["pass"]=1;  
 
 		            }else{
@@ -172,7 +174,7 @@ class Calificaciones extends REST_Controller
              //ahora busco coloco las preguntas
                 $data["DCuestionario"]=$dats_Cuest;
                 
-                $data["cuestionario"]=$this->Model_Cuestionarios->CuestionarioApp($datos->empresa,$dats_Cuest->Cuestionario);  
+                $data["cuestionario"]=$this->Model_Cuestionarios->CuestionarioApp($dats_Cuest["Cuestionario"]);  
                 $data["pass"]=1;            
             }else{
              $data["pass"]=0;
