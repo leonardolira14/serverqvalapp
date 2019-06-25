@@ -15,7 +15,10 @@ class Welcome extends REST_Controller {
 		parent::__construct();
 		$this->load->model("Model_Calificaciones");
 	}
-
+	public function index_get(){
+		$relaciones["adf"]="asdf"
+		$this->response($relaciones);
+	}
 	
 	public function downloaddate_post(){
 		$datos= $this->post();
