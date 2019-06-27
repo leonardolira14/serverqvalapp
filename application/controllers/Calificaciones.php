@@ -22,19 +22,34 @@ class Calificaciones extends REST_Controller
 	}
 	public function realiza_post(){
 		$datos= $this->post();
-		
+		//vdebug($datos);
 		if (isset($datos)) {
 			$request = json_decode($datos[0]);
 			$datos_empresa_receptora=$request[0]->datos_receptora;
 			$datos_empresa_emisora=$request[0]->datos_emisor; 
 			
+			
+			//obtengo los datos de la empresa emisora
+			
 			//obtengo los datos de la empresa que realiza
 			if($request[0]->tipo==='realiza'){
+
 				$_datos_Usuario_emisor=$this->Model_Usuarios->datos_usuario($datos_empresa_emisora->usuario);
 				$cuestionario=$this->Model_Calificaciones->cuestionario($datos_empresa_emisora->empresa,$_datos_Usuario_emisor->IDConfig,$datos_empresa_receptora->IDPerfil,$datos_empresa_receptora->perfil);
 			}else{
+
 				$_datos_Usuario_receptor=$this->Model_Usuarios->datos_usuario($datos_empresa_receptora->usuario);
 				$cuestionario=$this->Model_Calificaciones->cuestionario($datos_empresa_receptora->empresa,$datos_empresa_emisora->IDPerfil,$_datos_Usuario_receptor->IDConfig,$datos_empresa_receptora->perfil);
+				if($datos_empresa_emisora->perfil==="E"){
+					$datos_empresa_emisora_generales=$this->Model_Clientes->getDatosCliente($datos_empresa_emisora->empresa);
+				}else{
+					$datos_empresa_emisora_generales=$this->Model_Usuarios->getDatosCliente($datos_empresa_emisora->empresa);
+				}
+				
+
+				$data["datosempresa"]=$datos_empresa_emisora_generales;
+				$data["Tipoperfil"]=$datos_empresa_emisora->perfil;
+				
 			}
 	
 			//obtengo el cuestionario que se va a realizar
@@ -44,6 +59,7 @@ class Calificaciones extends REST_Controller
 				$data["Mensaje"]="Sin relación";
 			}else{
 				$data["pass"]=1;
+				
 				$data["Mensaje"]=$cuestionario;
 			}
 			$this->response($data);
@@ -144,6 +160,7 @@ class Calificaciones extends REST_Controller
     }
     public function recibeapp_post(){
         $_variables= $this->post();
+
 	 	$datos=json_decode($_variables["datos"]);
 	 	$datclie=explode("|",$datos->cliente);        
         $bandera=false;
@@ -161,7 +178,7 @@ class Calificaciones extends REST_Controller
             //verifico si es interno o externo
             if($datclie[0]==="E" ){
                  $datcliente=$this->Model_Clientes->ReadClieusu($datclie[1],$datos->empresa);
-                  $data["cliente"]=array("ID"=>$datcliente->IDCliente,"Clave"=>$datcliente->Clave,"Nombre"=>$datcliente->Nombre." ".$datcliente->Apellidos,"Usuario"=>$datcliente->Usuario,"TipoE"=>"E");
+                  $data["cliente"]=array("Actipass"=>$datcliente->Actipass,"ID"=>$datcliente->IDCliente,"Clave"=>$datcliente->Clave,"Nombre"=>$datcliente->Nombre." ".$datcliente->Apellidos,"Usuario"=>$datcliente->Usuario,"TipoE"=>"E","Telcontact"=>$datcliente->Telcontact);
                   
             }else if($datclie[0]==="I"){
                  $datcliente=$this->Model_Usuarios->DatosUsuarious($datclie[1],$datos->empresa);

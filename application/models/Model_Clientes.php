@@ -36,8 +36,28 @@ class Model_Clientes extends CI_Model
 			return $sql->row();
 		}
 	}
+	public function getDatosCliente($_ID_Empresa){
+		$sql=$this->db->select("*")->where("IDCliente='$_ID_Empresa'")->get("clientes");
+		if($sql->num_rows()===0){
+			return false;
+		}else{
+			return $sql->row();
+		}
+	}
 	public function ReadClieusu($num,$empresa){
 		$sql=$this->db->select("*")->where("Usuario='$num' and IDEmpresa='$empresa'")->get("clientes");
 		return $sql->result()[0];
+	}
+	public function checkpassword($IDEmpresa,$Password){
+		$sql=$this->db->select("*")->where("IDCliente='$IDEmpresa' and Clave='$Password'")->get("clientes");
+		if($sql->num_rows()===0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	public function updatepassword($IDEmpresa,$Password){
+		$sql=$this->db->where("IDCliente='$IDEmpresa'")->update("clientes",array("Clave"=>$Password));
+		
 	}
 }
