@@ -16,6 +16,7 @@ class Usuarios extends REST_Controller
     	header("Access-Control-Allow-Origin: *");
 		parent::__construct();
 		$this->load->model("Model_Usuarios");
+		$this->load->model("Model_Empresa");
 	}
 
 	//funcion para el login de la app
@@ -25,13 +26,17 @@ class Usuarios extends REST_Controller
 			$request = json_decode($datos[0]);
 
 			$respuesta=$this->Model_Usuarios->getuserlogin($request->correo,$request->clave);
+
+			$_datos_Empresa=$this->Model_Empresa->getEmpresa($respuesta->IDEmpresa);
 			
 			if($respuesta!==false){
 				$data["pass"]=1;
 				$data["datos"]=$respuesta;
+				$data["empresa"]=$_datos_Empresa;
 			}else{
 				$data["pass"]=0;
 				$data["datos"]="Error de usuario y/o contraseña";
+
 			}
 			
 			$this->response($data);
