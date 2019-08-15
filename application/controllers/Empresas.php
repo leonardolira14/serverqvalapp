@@ -48,12 +48,15 @@ class Empresas extends REST_Controller
 					$resp=$this->Model_Clientes->buscarrazon($_palabra,$_empresa,$_ID_usuario,$relacion["TPReceptor"],$relacion["PerfilCalificado"]);
 				}
 				if(count($resp)!==0){
-					array_push($d,$resp);
+					foreach($resp as $datos){
+						array_push($d,$datos);
+					}
+								
 				}
 				
 			}
-			
-			$data["empresas"]=$d;
+			$unique = array_map('unserialize', array_unique(array_map('serialize', $d)));
+			$data["empresas"]=$unique;
 			$this->response($data);
 			//;
 			

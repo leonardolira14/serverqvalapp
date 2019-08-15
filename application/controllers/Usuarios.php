@@ -25,11 +25,10 @@ class Usuarios extends REST_Controller
 		if (isset($datos)) {
 			$request = json_decode($datos[0]);
 
-			$respuesta=$this->Model_Usuarios->getuserlogin($request->correo,$request->clave);
-
-			$_datos_Empresa=$this->Model_Empresa->getEmpresa($respuesta->IDEmpresa);
+			$respuesta=$this->Model_Usuarios->getuserlogin($request->correo,$request->clave);	
 			
 			if($respuesta!==false){
+				$_datos_Empresa=$this->Model_Empresa->getEmpresa($respuesta->IDEmpresa);
 				$data["pass"]=1;
 				$data["datos"]=$respuesta;
 				$data["empresa"]=$_datos_Empresa;
