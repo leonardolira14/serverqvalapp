@@ -58,13 +58,6 @@ class Empresas extends REST_Controller
 			$unique = array_map('unserialize', array_unique(array_map('serialize', $d)));
 			$data["empresas"]=$unique;
 			$this->response($data);
-			//;
-			
-			
-			
-			
-			
-			
 			
 		}
 	}

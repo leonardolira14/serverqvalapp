@@ -72,6 +72,7 @@ class Model_Calificaciones extends CI_Model
 			$cuestionario=[];
 			
 			$nomenclaturas=json_decode($dcuestionario->Cuestionario);
+			
 			foreach ($nomenclaturas as $letra) {
 				$datospregunta=$this->datspregunta($letra);
 				array_push($cuestionario,$datospregunta);				
@@ -114,14 +115,14 @@ class Model_Calificaciones extends CI_Model
 		foreach ($_cuestionario as $_pregunta) {
 			$array=[];
 			//obtengo los datos de la pregunta
-			if(gettype($_pregunta->respuesta)=="array"){
-				$respuesta=json_encode($_pregunta->respuesta);
+			if(gettype($_pregunta->RespuestaUs)=="array"){
+				$respuesta=json_encode($_pregunta->RespuestaUs);
 			}else{
-				$respuesta=$_pregunta->respuesta;
+				$respuesta=$_pregunta->RespuestaUs;
 			}
 			
-			$datos_pregunta=$this->obtener_pregunta($_pregunta->pregunta);
-			$calif=_is_respcorrect($datos_pregunta["Respuesta"],$_pregunta->respuesta,$datos_pregunta["Peso"],$datos_pregunta["Forma"]);
+			$datos_pregunta=$this->obtener_pregunta($_pregunta->IDPregunta);
+			$calif=_is_respcorrect($datos_pregunta["Respuesta"],$respuesta,$datos_pregunta["Peso"],$datos_pregunta["Forma"]);
 			$array=array("IDValora"=>$_ID_Valora,"IDPregunta"=>$datos_pregunta["IDPregunta"],"Respuesta"=>$respuesta,"Calificacion"=>$calif);
 			$this->db->insert("detallecalificacion",$array);
 			$pp=$pp+(float)$datos_pregunta["Peso"];
