@@ -23,9 +23,9 @@ date_default_timezone_set('America/Mexico_City'); #Línea agregada
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://appserver.qvaluation.com/';
+//$config['base_url'] = 'https://appserver.qvaluation.com/';
 //$config['base_url'] = 'https://qval.admyo.com/server_app/';
-//$config['base_url'] = 'http://localhost/qval/app/severqvalapp/';
+$config['base_url'] = 'http://localhost/qval/app/severqvalapp/';
 
 /*
 |--------------------------------------------------------------------------

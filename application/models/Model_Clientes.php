@@ -14,16 +14,16 @@ class Model_Clientes extends CI_Model
 		$resultados=[];
 		
 		if($_Tipo==="E"){
-			$sql=$this->db->select("Nombre,IDCliente,NombreComercial,IDConfig")->like("Nombre",$palabra)->where("IDEmpresa=$empresa and IDConfig='$_IDConfig'")->get("clientes");
+			$sql=$this->db->select("Nombre,IDCliente,NombreComercial,IDConfig,Telcontact as Celular")->like("Nombre",$palabra)->where("IDEmpresa=$empresa and IDConfig='$_IDConfig'")->get("clientes");
 			
 			foreach ($sql->result() as $resultado) {
-				array_push($resultados,array("Nombre"=>$resultado->Nombre,"NC"=>$resultado->NombreComercial,"Num"=>$resultado->IDCliente,"config"=>$_Tipo,"numconfig"=>$resultado->IDConfig));
+				array_push($resultados,array("Nombre"=>$resultado->Nombre,"NC"=>$resultado->NombreComercial,"Num"=>$resultado->IDCliente,"config"=>$_Tipo,"numconfig"=>$resultado->IDConfig,"Celular"=>$resultado->Celular));
 			}
 		}
 		if($_Tipo==="I"){
-			$sql=$this->db->select("IDUsuario,Nombre,Apellidos,Puesto,IDConfig")->like("Nombre",$palabra)->where("IDEmpresa=$empresa and IDConfig='$_IDConfig'" )->get("usuario");
+			$sql=$this->db->select("IDUsuario,Nombre,Apellidos,Puesto,IDConfig,Celular")->like("Nombre",$palabra)->where("IDEmpresa=$empresa and IDConfig='$_IDConfig'" )->get("usuario");
 			foreach ($sql->result() as $resultado) {
-				array_push($resultados,array("Nombre"=>$resultado->Nombre." ".$resultado->Apellidos ,"NC"=>$resultado->Puesto,"Num"=>$resultado->IDUsuario,"config"=>$_Tipo,"numconfig"=>$resultado->IDConfig));
+				array_push($resultados,array("Nombre"=>$resultado->Nombre." ".$resultado->Apellidos ,"NC"=>$resultado->Puesto,"Num"=>$resultado->IDUsuario,"config"=>$_Tipo,"numconfig"=>$resultado->IDConfig,"Celular"=>$resultado->Celular));
 			}
 		}
 		return $resultados;

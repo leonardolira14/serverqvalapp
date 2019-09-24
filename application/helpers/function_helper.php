@@ -154,6 +154,15 @@ if(!function_exists('_is_post'))
 			_build_json();
 	}	
 }
+if(!function_exists('docemeces')){
+	function docemeces(){
+		$fechas=[];
+		  for($i=12;$i>=0;$i--){ 
+			array_push($fechas,date("Y-m",mktime(0,0,0,date("m")-$i,date("d"),date("Y"))));
+		  } 
+		  return $fechas;
+	  }
+}
 if(!function_exists("_media_puntos"))
 {
 	function _media_puntos($_puntos_obtenidos,$_puntos_posibles){

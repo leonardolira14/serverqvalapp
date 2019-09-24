@@ -152,4 +152,19 @@ class Model_Calificaciones extends CI_Model
 		return $sql->row_array();
 	}
 
+	// funcion  para obtener el numero de calificaciones en un mes
+	public function numcalificaciones($IDUsuario,$TPEmisor,$Fecha){
+		$docemeses=docemeces();
+		
+		if($Fecha==="A"){
+			$fecha_Inicio=$docemeses[0];
+			$fecha_Fin=$docemeses[12];
+		}else{
+			$fecha_Inicio=$docemeses[11];
+			$fecha_Fin=$docemeses[12];
+		}
+		$respuesta=$this->db->select("*")->where("IDEmisor='$IDUsuario' and TEmisor='$TPEmisor' and date(Fecha) BETWEEN '".$fecha_Inicio.'-'.date('d')."' AND '".$fecha_Fin.'-'.date('d')."'")->get("tbcalificaciones");
+		return $respuesta->num_rows();
+	}
+
 }

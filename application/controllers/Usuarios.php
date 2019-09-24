@@ -17,6 +17,7 @@ class Usuarios extends REST_Controller
 		parent::__construct();
 		$this->load->model("Model_Usuarios");
 		$this->load->model("Model_Empresa");
+		$this->load->model("Model_Calificaciones");
 	}
 
 	//funcion para el login de la app
@@ -86,5 +87,10 @@ class Usuarios extends REST_Controller
 			$_data["datos"]=$this->Model_Usuarios->datos_usuario($datos->idusuario);
 			$this->response($_data);
 		}
+	}
+	public function numero_post(){
+		$datos=$this->post();
+		$_data["response"]=$this->Model_Calificaciones->numcalificaciones($datos["usuario"],"I",$datos["tiempo"]);
+		$this->response($_data);
 	}
 }
