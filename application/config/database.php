@@ -3,10 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db['defaultl'] = array(
+$db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'ec2-18-188-195-242.us-east-2.compute.amazonaws.com',
-	'username' => 'root',
+	'hostname' => '3.133.125.103',
+	'username' => 'administradoronline',
 	'password' => 'admyo246',
 	'database' => 'qval',
 	'dbdriver' => 'mysqli',
@@ -24,7 +24,7 @@ $db['defaultl'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-$db['default'] = array(
+$db['defaultl'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
